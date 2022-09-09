@@ -1,3 +1,6 @@
+//Browser: https://cm-cohort-4.cmart073.com/
+//curl w/ POST: curl -X POST -s https://cm-cohort-4.cmart073.com/ | jq
+
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
@@ -7,7 +10,7 @@ async function handleRequest(request) {
 	  app: {
       message: 'You made a POST request',
 	    name: 'CM-Code-Club-2-Cohort-4',
-	    version: '1.0.2'
+	    version: '1.0.3'
 	  }
 	}
  	const url = new URL(request.url);
