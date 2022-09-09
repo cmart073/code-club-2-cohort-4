@@ -3,20 +3,30 @@ addEventListener('fetch', event => {
 })
 
 async function handleRequest(request) {
-	// Return a new Response based on a URL's hostname
+	var config = {
+	  app: {
+      message: 'You made a POST request',
+	    name: 'CM-Code-Club-2-Cohort-4',
+	    version: '1.0.2'
+	  }
+	}
  	const url = new URL(request.url);
  	var data = "Thanks for making a POST"
  	var html = "Welcome CM-Code-Club-2-Cohort-4"
+
+ 	var response = {}
+
   
 // On HTTP method
 	if (request.method === 'POST') {
 		
-		request.content = JSON.stringify(data)
-		request.type = 'application/json'
+		response.content = JSON.stringify(config.app)
+		response.type = 'application/json'
   	}else{
-	    request.content = html
-	    request.type = 'text/html'
+	    response.content = `<HTML><header>`+config.app.name+`</header><body>`+html+`</body><footer>Version: `+config.app.version+`</footer></HTML>`,
+	    response.type = 'text/html'
+
     
   }
-  return new Response(request.content, {status:200, headers:{'content-type': request.type}})
+  return new Response(response.content, {status:200, headers:{'content-type': response.type}})
 }
