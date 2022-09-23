@@ -1,0 +1,6 @@
+name = "assignment-3"
+main = "src/index.ts"
+compatibility_date = "2022-09-23"
+workers_dev = false
+account_id = "e4dc4169e6d00bc4dd52a87e37fa60f4"
+route = { pattern = "assignment-3.cm-cohort-4.cmart073.com", zone_id = "e921d97182f9055f79e8a97e12a2e7d8" }
