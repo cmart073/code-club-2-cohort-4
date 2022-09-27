@@ -15,7 +15,7 @@ async function handleRequest(request) {
       app: {
         message: "Welcome to Code Club.",
         name: "CM-Code-Club-2-Cohort-4",
-        version: "3.0.1"
+        version: "3.0.5"
       },
       ok: {
         status: 200
@@ -67,8 +67,15 @@ async function handleRequest(request) {
 ############ Sets the correct response content, type and status      ############
 #################################################################################
 */
-	if (request.method === "GET") {
-      response.content = `<!doctype html>
+	if (request.cf.botManagement.score <= 29){
+    response.content = "No Bots Allowed \nscore: " + request.cf.botManagement.score
+    response.status = config.ok.status;
+  }else if (request.method === "POST" || (request.headers.has('accept') && ['application/json'].includes(request.headers.get('accept')))){ //(j.headers.has('accept') && ['application/json'].includes(j.headers.get('Accept'))) || (j.headers.has('User-Agent') && (['bot'].includes(j.headers.get('User-Agent'))  || ['curl'].includes(j.headers.get('User-Agent'))))) {
+    response.content = JSON.stringify(response.text);
+    response.type = "application/json";
+    response.status = config.ok.status;
+  }else if (request.method === "GET") {
+    response.content = `<!doctype html>
 							<html lang="en">
 							  <head>
 							    <meta charset="utf-8">
@@ -92,14 +99,7 @@ async function handleRequest(request) {
 							</html>`;
       response.type = "text/html";
       response.status = config.ok.status;
-    } else if (request.method === "POST" || j.headers["Accept"] == "application/json" || j.headers["User-Agent"].includes("bot") || j.headers["User-Agent"].includes("curl")) {
-      response.content = JSON.stringify(response.text);
-      response.type = "application/json";
-      response.status = config.ok.status;
-    } else if (request.cf.botManagement.score <= 29){
-      response.content = "No Bots Allowed"
-      response.status = config.ok.status;
-    }
+    }  
 /*
 #################################################################################
 ############ Returns our new Response based on the above conditions  ############
