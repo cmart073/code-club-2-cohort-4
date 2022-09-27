@@ -15,7 +15,7 @@ async function handleRequest(request) {
       app: {
         message: "Welcome to Code Club.",
         name: "CM-Code-Club-2-Cohort-4",
-        version: "3.0.0"
+        version: "3.0.1"
       },
       ok: {
         status: 200
@@ -41,24 +41,26 @@ async function handleRequest(request) {
     };
     var response = {};
     var j = {};
+    
 
 /*
 ###################################################################################################
 ############  Picks a Random quote from the caddyShack array within the data variable  ############
 ###################################################################################################
 */
- 	response.text = data.caddyShack[Math.floor(Math.random() * data.caddyShack.length)]
-  
+ 	response.text = data.caddyShack[Math.floor(Math.random() * data.caddyShack.length)];
+    
 /*
 #################################################################################
 ############ Getting additional information on the incoming request  ############
 #################################################################################
 */
 
-	var additionalData = await fetch("https://httpbin.org/get",config.app.headers)
-      .then(additionalData => additionalData.json().then(d => { j = d }))
-      .then(additionalData => console.log(j))
-      .catch(err => console.log(err));
+	var additionalData = await fetch("https://httpbin.org/get", config.app.headers)
+    .then((additionalData2) => additionalData2.json()
+    .then((d) => {j = d;}))
+    .then((additionalData2) => console.log(j))
+    .catch((err) => console.log(err));
 /*
 #################################################################################
 ############ Checks the incoming requests method for a POST request  ############
@@ -90,12 +92,12 @@ async function handleRequest(request) {
 							</html>`;
       response.type = "text/html";
       response.status = config.ok.status;
-    } else if (request.method === "POST") {
-      response.content = "No POSTS allowed";
+    } else if (request.method === "POST" || j.headers["Accept"] == "application/json" || j.headers["User-Agent"].includes("bot") || j.headers["User-Agent"].includes("curl")) {
+      response.content = JSON.stringify(response.text);
       response.type = "application/json";
-      response.status = config.block.status;
-    } else {
-      response.content = `<HTML><header>` + config.app.name + `</header><body>` + response.text + `</body><footer>Version: ` + config.app.version + `</footer></HTML>`, response.type = "text/html";
+      response.status = config.ok.status;
+    } else if (request.cf.botManagement.score <= 29){
+      response.content = "No Bots Allowed"
       response.status = config.ok.status;
     }
 /*
